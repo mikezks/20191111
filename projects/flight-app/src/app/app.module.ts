@@ -6,19 +6,21 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { FlightSearchComponent } from './flight-search/flight-search.component';
+import { FlightSearchComponent } from './flight-booking/flight-search/flight-search.component';
+import { FlightBookingModule } from './flight-booking/flight-booking.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
    imports: [
       BrowserModule,
       HttpClientModule,
-      FormsModule,
+      FlightBookingModule,
+      SharedModule
    ],
    declarations: [
       AppComponent,
       SidebarComponent,
-      NavbarComponent,
-      FlightSearchComponent
+      NavbarComponent
    ],
    providers: [],
    bootstrap: [
