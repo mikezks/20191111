@@ -17,6 +17,9 @@
       "dom"
     ],
     "paths": {
+      "@flight-workspace/flight-api": [
+        "projects/flight-api/src/public_api"
+      ],
       "@my/logger-lib": [
         "projects/logger-lib/src/public_api"
       ]

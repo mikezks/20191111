@@ -1,23 +1,32 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CityPipe } from './pipes/city.pipe';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {ModuleWithProviders} from '@angular/core';
+import {CityPipe} from './pipes/city.pipe';
 
 @NgModule({
-  declarations: [
-    CityPipe
-  ],
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
+    CommonModule
+  ],
+  declarations: [
+    CityPipe,
   ],
   exports: [
-    CityPipe,
-    FormsModule,
-    ReactiveFormsModule
+    CityPipe
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: []
+    }
+  }
+
+  static forChild(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: []
+    }
+  }
+
+}

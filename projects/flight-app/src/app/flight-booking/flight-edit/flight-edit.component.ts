@@ -1,54 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { validateCity, validateCityWithWhiteList } from '../../shared/validation/city.validator';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-flight-edit',
-  templateUrl: './flight-edit.component.html',
-  styleUrls: ['./flight-edit.component.css']
+  templateUrl: './flight-edit.component.html'
 })
 export class FlightEditComponent implements OnInit {
-  editForm: FormGroup;
+  id: string;
+  showDetails: string;
+  showWarning = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-    this.editForm = this.fb.group({
-      id: [
-        '1'
-      ],
-      from: [
-        'Graz',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          validateCity
-        ]
-      ],
-      to: [
-        'Hamburg',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          validateCityWithWhiteList([
-            'Wien',
-            'Berlin'
-          ])
-        ]
-      ],
-      date: [
-        (new Date()).toISOString()
-      ]
+    this.route.params.subscribe(p => {
+      this.id = p['id'];
+      this.showDetails = p['showDetails'];
     });
-
-    this.editForm.valueChanges
-      .subscribe(console.log);
   }
 
-  save(): void {
-    console.log('value', this.editForm.value);
-    console.log('valid', this.editForm.valid);
-    console.log('dirty', this.editForm.dirty);
-    console.log('touched', this.editForm.touched);
-  }
 }

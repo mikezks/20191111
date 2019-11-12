@@ -1,42 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { Flight } from '../../entities/flight';
-import { FlightService } from '../services/flight.service';
+import {Component, OnInit} from '@angular/core';
+import {FlightService} from '@flight-workspace/flight-api';
 
 @Component({
-  selector: 'app-flight-search',
+  selector: 'flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.css']
 })
 export class FlightSearchComponent implements OnInit {
 
-  from = 'Hamburg';
-  to = 'Graz';
-  flights: Array<Flight> = [];
-  selectedFlight: Flight;
-  /* get flights() {
-    return this.flightService.flights;
-  } */
+  from: string = 'Hamburg'; // in Germany
+  to: string = 'Graz'; // in Austria
+  urgent: boolean = false;
 
+  get flights() {
+    return this.flightService.flights;
+  }
+
+  // "shopping basket" with selected flights
   basket: object = {
     "3": true,
-    "5": true,
+    "5": true
   };
 
-  constructor(private flightService: FlightService) { }
+  constructor(
+    private flightService: FlightService) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   search(): void {
+    if (!this.from || !this.to) return;
+
     this.flightService
-      .find(this.from, this.to)
-      .subscribe(
-        flights => this.flights = flights,
-        error => console.error('Error loading flights', error)
-      );
+      .load(this.from, this.to, this.urgent);
   }
 
-  select(f: Flight) {
-    this.selectedFlight = f;
+  delay(): void {
+    this.flightService.delay();
   }
+
 }
