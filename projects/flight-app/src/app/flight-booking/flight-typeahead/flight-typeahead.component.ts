@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { timer, Observable, Subscription } from 'rxjs';
-import { tap, share, switchMap, debounceTime, filter } from 'rxjs/operators';
+import { timer, Observable, Subscription, interval, combineLatest, iif, of } from 'rxjs';
+import { tap, share, switchMap, debounceTime, filter, map, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { FlightService, Flight } from '@flight-workspace/flight-api';
 import { FormControl } from '@angular/forms';
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
@@ -18,6 +18,8 @@ export class FlightTypeaheadComponent implements OnInit, OnDestroy {
   control = new FormControl();
   flights$: Observable<Flight[]>;
   loading: boolean;
+  online$: Observable<boolean>;
+  online: boolean;
 
   constructor(
     private flightService: FlightService,
@@ -48,13 +50,34 @@ export class FlightTypeaheadComponent implements OnInit, OnDestroy {
   }
 
   initTypeahead(): void {
+    this.online$ = interval(2000)
+      .pipe(
+        startWith(0),
+        map(() => Math.random() < 0.5),
+        distinctUntilChanged(),
+        tap(online => this.online = online)
+      );
+
     this.flights$ = this.control.valueChanges
       .pipe(
+        from$ => combineLatest(from$, this.online$),
+        filter(([from, online]) => online),
+        map(([from, online]) => from),
         debounceTime(300),
-        filter(from => from.length > 2),
-        tap(() => this.loading = true),
-        switchMap(from => this.load(from)),
-        tap(() => this.loading = false)
+        //filter(from => from.length > 2),
+        distinctUntilChanged(),
+        switchMap(from =>
+          iif(
+            () => from.length > 2,
+            of(from)
+              .pipe(
+                tap(() => this.loading = true),
+                switchMap(from => this.load(from)),
+                tap(() => this.loading = false)
+              ),
+            of([])
+          )
+        )
       );
   }
 
