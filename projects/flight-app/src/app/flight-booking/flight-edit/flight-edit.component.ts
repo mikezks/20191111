@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-flight-edit',
@@ -10,6 +11,11 @@ export class FlightEditComponent implements OnInit {
   showDetails: string;
   showWarning = false;
 
+  /* control = new FormControl();
+  form = new FormGroup({
+    from: this.control
+  }); */
+
   constructor(private route: ActivatedRoute) {
   }
 
@@ -18,6 +24,9 @@ export class FlightEditComponent implements OnInit {
       this.id = p['id'];
       this.showDetails = p['showDetails'];
     });
+
+    /* this.control.patchValue('Peter');
+    this.form.patchValue({ from: 'Hans'}); */
   }
 
 }

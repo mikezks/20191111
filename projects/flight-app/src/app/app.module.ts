@@ -40,8 +40,9 @@ import { AppEffects } from "./+state/effects/app.effects";
         strictActionImmutability: true,
       }
     }),
-    EffectsModule.forRoot([ AppEffects ]),
+    //EffectsModule.forRoot([ AppEffects ]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([]),
   ],
   declarations: [
     AppComponent,
