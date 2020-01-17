@@ -36,4 +36,27 @@ export class FlightService implements AbstractFlightService {
         //tap(flights => this.flights = [ ...this.flights, ...flights])
       );
   }
+
+  findById(id: number): Observable<Flight> {
+    const url = 'http://www.angular.at/api/flight';
+    
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json');
+
+    const params = new HttpParams()
+      .set('id', id+'');
+
+    return this.http
+      .get<Flight>(url, { params, headers });
+  }
+
+  save(flight: Flight): Observable<Flight> {
+    const url = 'http://www.angular.at/api/flight';
+    
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json');
+
+    return this.http
+      .post<Flight>(url, flight, { headers });
+  }
 }

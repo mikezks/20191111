@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { validateCity, validateCityWithWhiteList } from '../../shared/validation/city.validator';
+import { validateRoundTrip } from '../../shared/validation/round-trip-validator';
+import { AbstractFlightService } from '../services/abstract-flight.service';
 
 @Component({
   selector: 'app-flight-edit',
@@ -8,14 +10,17 @@ import { validateCity, validateCityWithWhiteList } from '../../shared/validation
   styleUrls: ['./flight-edit.component.css']
 })
 export class FlightEditComponent implements OnInit {
+  id = 2;
   editForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private flightService: AbstractFlightService) { }
 
   ngOnInit() {
     this.editForm = this.fb.group({
       id: [
-        '1'
+        1
       ],
       from: [
         'Graz',
@@ -41,6 +46,14 @@ export class FlightEditComponent implements OnInit {
       ]
     });
 
+    this.editForm.validator = validateRoundTrip;
+
+    this.flightService
+      .findById(this.id)
+      .subscribe(
+        flight => this.editForm.patchValue(flight)
+      );
+
     this.editForm.valueChanges
       .subscribe(console.log);
   }
@@ -50,5 +63,11 @@ export class FlightEditComponent implements OnInit {
     console.log('valid', this.editForm.valid);
     console.log('dirty', this.editForm.dirty);
     console.log('touched', this.editForm.touched);
+
+    this.flightService
+      .save(this.editForm.value)
+      .subscribe(
+        flight => this.editForm.patchValue(flight)
+      );
   }
 }

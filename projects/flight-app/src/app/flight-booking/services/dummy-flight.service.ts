@@ -5,15 +5,23 @@ import { Flight } from '../../entities/flight';
 
 @Injectable()
 export class DummyFlightService implements AbstractFlightService {
+  flights = [{
+    id: 17,
+    from: 'Graz',
+    to: 'Hamburg',
+    date: '2022-01-01',
+    delayed: true
+  }];
 
   find(from: string, to: string): Observable<Flight[]> {
+    return of(this.flights);
+  }
 
-    return of([{
-      id: 17,
-      from: 'Graz',
-      to: 'Hamburg',
-      date: '2022-01-01',
-      delayed: true
-    }]);
+  findById(id: number): Observable<Flight> {
+    return of(this.flights[0]);
+  }
+
+  save(flight: Flight): Observable<Flight> {
+    return of(this.flights[0]);
   }
 }

@@ -1,4 +1,11 @@
 <form [formGroup]="editForm">
+
+        <div
+            class="alert alert-danger"
+            *ngIf="editForm.hasError('roundTrip')">		
+            ...roundtrip...
+        </div>
+
         <div class="form-group">
             <label>Id:</label>
             <input formControlName="id" class="form-control">
@@ -14,23 +21,39 @@
             <input formControlName="from" class="form-control">
         </div>
 
-        <pre *ngIf="editForm.controls['from'].hasError('required')">Das ist ein Pflichtfeld!</pre>
-        <pre *ngIf="editForm.controls['from'].hasError('minlength')">Bitte die Mindestzeichenanzahl beachten! ({{
-            editForm.controls['from'].errors.minlength.actualLength + '/' +
-            editForm.controls['from'].errors.minlength.requiredLength
-        }})</pre>
-        <pre *ngIf="editForm.controls['from'].hasError('minlength')">{{
-            editForm.controls['from'].errors | json
-        }}</pre>
-        <pre *ngIf="editForm.controls['from'].hasError('city')">Das ist eine nicht erlaubte Stadt!</pre>
-    
+        <div
+            class="alert alert-danger"
+            *ngIf="editForm.get('from').hasError('minlength')">		
+            ...minlength...
+        </div>
+
+        <div
+            class="alert alert-danger"
+            *ngIf="editForm.get('from').hasError('city')">		
+            ...city...
+        </div>
+
+        <pre>errors: {{ editForm.get('from').errors | json }}</pre>
+
         <div class="form-group">
             <label>To:</label>
             <input formControlName="to" class="form-control">
         </div>
 
-        <pre *ngIf="editForm.controls['to'].hasError('city')">Das ist eine nicht erlaubte Stadt!</pre>
-    
+        <div
+            class="alert alert-danger"
+            *ngIf="editForm.get('to').hasError('minlength')">		
+            ...minlength...
+        </div>
+
+        <div
+            class="alert alert-danger"
+            *ngIf="editForm.get('to').hasError('city')">		
+            ...city...
+        </div>
+
+        <pre>errors: {{ editForm.get('to').errors | json }}</pre>
+
         <div class="form-group">
             <button (click)="save()" class="btn btn-default">Save</button>
         </div>
