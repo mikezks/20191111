@@ -3,11 +3,10 @@ import { Observable } from 'rxjs';
 import { Flight } from '../../entities/flight';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { AbstractFlightService } from './abstract-flight.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class FlightService {
+@Injectable()
+export class FlightService implements AbstractFlightService {
   /* flights = [
     {
       id: 1,
