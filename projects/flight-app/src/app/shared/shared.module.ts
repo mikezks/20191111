@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CityPipe } from './pipes/city.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { StatusToggleComponent } from './components/status-toggle/status-toggle.component';
 
 @NgModule({
   declarations: [
-    CityPipe
+    CityPipe,
+    StatusToggleComponent
   ],
   imports: [
     CommonModule,
@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     CityPipe,
+    StatusToggleComponent,
     FormsModule,
     ReactiveFormsModule
   ]

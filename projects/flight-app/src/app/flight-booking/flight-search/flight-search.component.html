@@ -39,7 +39,10 @@
             [item]="flight"
             [selected]="basket[flight.id]"
             (selectedChange)="basket[flight.id] = $event">
-            <div class="headline-title">Title for my flights</div>
+            
+            <h1 class="top">Flight</h1>
+            <pre class="bottom">{{ flight | json }}</pre>
+            
         </app-flight-card>
 
     </div>
