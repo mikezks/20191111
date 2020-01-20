@@ -33,7 +33,13 @@ export class FlightSearchComponent implements OnInit {
   ngOnInit() {
     this.flights$ = this.store
       .pipe(
-        select(state => state.flightBooking.flights)
+        //select(state => state.flightBooking.flights)
+        //select(fromFlightBooking.getFlights)
+        //select(fromFlightBooking.selectFlightsWithProps, { blackList: [3]}),
+        fromFlightBooking.getItemsByFilter(
+          fromFlightBooking.getFlights,
+          flight => !flight.delayed
+        )
       );
   }
 
